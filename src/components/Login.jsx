@@ -21,7 +21,7 @@ const LoginPage = () => {
       setBtn("Submit Credentials");
     }
     try {
-      const res = await fetch(`http://localhost:3333/login`, {
+      const res = await fetch(`https://auth-checkout-server.vercel.app/login`, {
         method: "POST",
         body: JSON.stringify({
           emailAddress,
