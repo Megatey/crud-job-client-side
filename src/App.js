@@ -54,7 +54,6 @@ function HomePage() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const validateAuth = async () => {
     const cookie = cookies.get('token');
     try {
@@ -63,7 +62,7 @@ function HomePage() {
           "x-access-token":cookie,
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        // credentials: "include",
       });
       const data = await res.json();
       console.log(data.success, "As data");

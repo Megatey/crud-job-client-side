@@ -30,7 +30,7 @@ const Dashboard = ({ newData }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        // credentials: "include",
       });
       const data = await res.json();
       if (data.success !== true) {
