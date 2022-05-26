@@ -16,6 +16,7 @@ import {
   setUserData,
 } from "./redux/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+import Cookies from "universal-cookie";
 
 function App() {
   const validate = useSelector(getValidate);
@@ -50,12 +51,18 @@ function App() {
 }
 
 function HomePage() {
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const validateAuth = async () => {
+    const cookie = cookies.get('token');
     try {
       const res = await fetch(`https://auth-checkout-server.vercel.app/get_users_data`, {
+        headers: {
+          "x-access-token":cookie,
+          "Content-Type": "application/json",
+        },
         credentials: "include",
       });
       const data = await res.json();
