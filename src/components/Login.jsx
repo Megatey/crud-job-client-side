@@ -27,6 +27,7 @@ const LoginPage = () => {
       return alert("Missing Field(s)!");
     }
     try {
+      const cookie = cookies.get('myCat');
       const res = await fetch(`https://auth-checkout-server.vercel.app/login`, {
         method: "POST",
         body: JSON.stringify({
@@ -35,6 +36,7 @@ const LoginPage = () => {
         }),
         headers: {
           "Content-Type": "application/json",
+          "x-access-token":cookie
         },
         credentials: "include",
       });
