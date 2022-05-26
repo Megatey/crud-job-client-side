@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getValidate,
   setValidate,
@@ -17,7 +17,7 @@ const Dashboard = ({ newData }) => {
   const handleLogout = async () => {
     try {
       setBtn("Logging out....");
-      const res = await fetch(`http://localhost:3333/logout`, {
+      const res = await fetch(`https://auth-checkout-server.vercel.app/logout`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

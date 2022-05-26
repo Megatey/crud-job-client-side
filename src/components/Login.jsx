@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import Login from "../components/Login";
 import { useNavigate } from "react-router-dom";
-import { getValidate, setValidate, getUserData, setUserData } from "../redux/slices/authSlice";
+import {
+  getValidate,
+  setValidate,
+  getUserData,
+  setUserData,
+} from "../redux/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+import Cookies from "universal-cookie";
 
 const LoginPage = () => {
+  const cookies = new Cookies();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const validate = useSelector(getValidate);
@@ -17,11 +23,11 @@ const LoginPage = () => {
     e.preventDefault();
     setBtn("logging in...Please wait.");
     if (!emailAddress || !password) {
-      return alert("Missing Field(s)!");
       setBtn("Submit Credentials");
+      return alert("Missing Field(s)!");
     }
     try {
-      const res = await fetch(`http://localhost:3333/login`, {
+      const res = await fetch(`https://auth-checkout-server.vercel.app/login`, {
         method: "POST",
         body: JSON.stringify({
           emailAddress,
@@ -39,8 +45,14 @@ const LoginPage = () => {
         return;
       }
       console.log(data, "As data");
-      dispatch(setUserData(data?.data))
-      dispatch(setValidate(true))
+      cookies.set("token", data.token, {
+        path: "/",
+        maxAge: 3600000,
+        sameSite: "none",
+        secure: true,
+      });
+      dispatch(setUserData(data?.data));
+      dispatch(setValidate(true));
       setBtn("Success!");
       navigate("/dashboard");
       return;
