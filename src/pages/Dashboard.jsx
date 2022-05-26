@@ -17,7 +17,7 @@ const Dashboard = ({ newData }) => {
   const handleLogout = async () => {
     try {
       setBtn("Logging out....");
-      const res = await fetch(`https://auth-checkout-server.vercel.app/logout`, {
+      const res = await fetch(`http://localhost:3333logout`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
