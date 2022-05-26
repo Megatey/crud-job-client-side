@@ -47,7 +47,7 @@ const LoginPage = () => {
       console.log(data, "As data");
       cookies.set("token", data.token, {
         path: "/",
-        maxAge: 3600000,
+        maxAge: 25200000,
         sameSite: "none",
         secure: true,
       });
