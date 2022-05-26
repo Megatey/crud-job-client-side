@@ -56,7 +56,7 @@ function HomePage() {
 
   const validateAuth = async () => {
     try {
-      const res = await fetch(`http://localhost:3333get_users_data`, {
+      const res = await fetch(`http://localhost:3333/get_users_data`, {
         credentials: "include",
       });
       const data = await res.json();

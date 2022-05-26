@@ -21,7 +21,7 @@ const LoginPage = () => {
       setBtn("Submit Credentials");
     }
     try {
-      const res = await fetch(`http://localhost:3333login`, {
+      const res = await fetch(`http://localhost:3333/login`, {
         method: "POST",
         body: JSON.stringify({
           emailAddress,
