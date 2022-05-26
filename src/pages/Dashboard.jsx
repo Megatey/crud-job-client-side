@@ -17,7 +17,11 @@ const Dashboard = ({ newData }) => {
   const handleLogout = async () => {
     try {
       setBtn("Logging out....");
+<<<<<<< HEAD
       const res = await fetch(`http://localhost:3333/logout`, {
+=======
+      const res = await fetch(`http://localhost:3333logout`, {
+>>>>>>> c381b47a83f56899081ed3248a9ccd99622dd304
         method: "GET",
         headers: {
           "Content-Type": "application/json",

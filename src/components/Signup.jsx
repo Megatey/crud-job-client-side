@@ -26,7 +26,11 @@ const Signup = () => {
         try {
             setBtn("Registering")
             console.log("run api")
+<<<<<<< HEAD
            const res = await fetch(`http://localhost:3333/create_account`, {
+=======
+           const res = await fetch(`http://localhost:3333create_account`, {
+>>>>>>> c381b47a83f56899081ed3248a9ccd99622dd304
                 //   credentials: 'include',
                method:"POST",
                body:JSON.stringify({
