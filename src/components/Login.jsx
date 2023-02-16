@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getValidate,
-  setValidate,
-  getUserData,
-  setUserData,
-} from "../redux/slices/authSlice";
+
 import { useSelector, useDispatch } from "react-redux";
-import Cookies from "universal-cookie";
+import { toast } from 'react-toastify';
+
 
 const LoginPage = () => {
-  const cookies = new Cookies();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const validate = useSelector(getValidate);
-  const user_daya = useSelector(getUserData);
-  const [emailAddress, setEmailAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [btn, setBtn] = useState("Submit Credentials");
+  const [btn, setBtn] = useState("Login");
+  const [disabled, setDisabled] = useState(false)
+
 
   const handleLoginReq = async (e) => {
     e.preventDefault();
-    setBtn("logging in...Please wait.");
-    if (!emailAddress || !password) {
+    setBtn("logging in...");
+    if (!email || !password) {
       setBtn("Submit Credentials");
       return alert("Missing Field(s)!");
     }
     try {
-      
-      const res = await fetch(`https://auth-checkout-server.vercel.app/login`, {
+
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login/`, {
         method: "POST",
         body: JSON.stringify({
-          emailAddress,
+          email,
           password,
         }),
         headers: {
@@ -40,44 +35,49 @@ const LoginPage = () => {
         // credentials: "include",
       });
       const data = await res.json();
-      if (!data.success) {
-        alert(data.message);
-        setBtn("failed. Try Again");
+      if (data?.status === true) {
+        localStorage.setItem('token', data?.token)
+        setBtn("Successful!")
+        toast.success(`Welcome ${data?.username}`)
+        setDisabled(false)
+        navigate("/")
         return;
       }
-      console.log(data, "As data");
-      cookies.set("token", data.token, {
-        path: "/",
-        maxAge: 25200000,
-        sameSite: "none",
-        secure: true,
-      });
-      dispatch(setUserData(data?.data));
-      dispatch(setValidate(true));
-      setBtn("Success!");
-      navigate("/dashboard");
+      toast.error(data?.msg)
+      setBtn("Login")
+      setDisabled(false)
       return;
     } catch (error) {
-      setBtn("Error occured!");
+      console.log(error, "error")
+      setDisabled(false)
+      setBtn("Login")
+      toast.error("Network error. Pls check connection and try again")
     }
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#e5e5e5", width: "100%", height: "100vh" }}>
       <h1 style={{ textAlign: "center" }}>You have to login to continue.</h1>
-      <form onSubmit={handleLoginReq}>
-        <input
-          type="email"
-          placeholder="email"
-          onChange={(e) => setEmailAddress(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button>{btn}</button>
-      </form>
+      <div class="login-card">
+        <div class="card-header">
+          <div class="log">Login</div>
+        </div>
+        <form onSubmit={handleLoginReq}>
+          <div class="form-group">
+            <label for="username">Email:</label>
+            <input required="" name="email" id="email" type="text" onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input required="" name="password" id="password" type="password" onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          <div class="form-group">
+            <input value={btn} type="submit" disabled={disabled} />
+          </div>
+        </form>
+        <span className="notify">Already have an account? Go to <span className="go-login" onClick={() => navigate("/signup")}>Sign-up</span></span>
+      </div>
+
     </div>
   );
 };
