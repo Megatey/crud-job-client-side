@@ -19,7 +19,8 @@ const LoginPage = () => {
     setBtn("logging in...");
     if (!email || !password) {
       setBtn("Submit Credentials");
-      return alert("Missing Field(s)!");
+      toast.error("Missing Field(s)!");
+      return 
     }
     try {
 
