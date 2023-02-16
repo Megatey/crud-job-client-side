@@ -56,7 +56,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#e5e5e5", width: "100%", height: "100vh" }}>
+    <div className="login-page">
       <h1 style={{ textAlign: "center" }}>You have to login to continue.</h1>
       <div class="login-card">
         <div class="card-header">
